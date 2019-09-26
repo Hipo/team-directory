@@ -1,5 +1,8 @@
 import Head from "next/head";
 
+import Header from "../header/Header";
+import Sidebar from "../sidebar/Sidebar";
+
 import "./_layout.scss";
 
 function Layout(props) {
@@ -9,9 +12,15 @@ function Layout(props) {
         <link href="https://fonts.googleapis.com/css?family=Hind:400,500,600,700&display=swap&subset=latin-ext"
               rel="stylesheet"/>
       </Head>
-      <header>{"header"}</header>
+      <Header/>
 
-      {props.children}
+      <div className={"team-directory-app-body"}>
+        <Sidebar/>
+
+        <div className={"team-directory-app-body-content"}>
+          {props.children}
+        </div>
+      </div>
     </div>
   )
 }
