@@ -2,6 +2,8 @@ import Logo from "../../static/assets/images/hipo-logo.svg";
 
 import "./_header.scss";
 
+import SearchBox from "../search-box/SearchBox";
+
 function Header() {
   return (
     <header className={"main-header"}>
@@ -14,6 +16,8 @@ function Header() {
           {"team"}
         </span>
       </div>
+      <SearchBox/>
+      
     </header>
   );
 }
