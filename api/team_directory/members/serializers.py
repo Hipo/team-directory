@@ -9,11 +9,14 @@ from links.models import Link
 from links.serializers import LinkSerializer
 
 
-class MemberSerializer(serializers.ModelSerializer):
-    projects = PresentablePrimaryKeyRelatedField(queryset=Project.objects.all(), presentation_serializer=ProjectSerializer, many=True)
-    links = PresentablePrimaryKeyRelatedField(queryset=Link.objects.all(), presentation_serializer=LinkSerializer, many=True)
-    team = PresentablePrimaryKeyRelatedField(queryset=Team.objects.all(), presentation_serializer=TeamSerializer)
+class SimpleMemberSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = '__all__'
         model = Member
+
+
+class MemberSerializer(SimpleMemberSerializer):
+    projects = PresentablePrimaryKeyRelatedField(queryset=Project.objects.all(), presentation_serializer=ProjectSerializer, many=True)
+    links = PresentablePrimaryKeyRelatedField(queryset=Link.objects.all(), presentation_serializer=LinkSerializer, many=True)
+    team = PresentablePrimaryKeyRelatedField(queryset=Team.objects.all(), presentation_serializer=TeamSerializer)
