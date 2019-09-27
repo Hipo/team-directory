@@ -40,7 +40,7 @@ function GridItem({item}) {
         </p>
 
         <ul className={"grid-item-detail-one-liner-list"}>
-          {oneLiners.map(oneLiner => (
+          {oneLiners.slice(0, 3).map(oneLiner => (
             <li className={"grid-item-detail-one-liner-list-item"}
                 key={oneLiner}>
               <span className={"grid-item-detail-one-liner-list-item-bullet"}/>

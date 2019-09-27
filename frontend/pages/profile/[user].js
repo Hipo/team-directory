@@ -5,6 +5,7 @@ import groupBy from "lodash/groupBy";
 
 import Layout from "../../components/layout/Layout";
 import Grid from "../../components/grid/Grid";
+import CrossIcon from "../../static/assets/images/cross.svg";
 
 import "./_user.scss";
 
@@ -29,6 +30,13 @@ function User({user, users, iceBreakerQuestions, projectList, teamList}) {
       <div className={"user-profile-backdrop"}
            onClick={handleBackdropClick}/>
       <div className={"user-profile-section"}>
+        <div className={"user-profile-section-close-button-container"}
+             onClick={handleBackdropClick}>
+          <img src={CrossIcon}
+               className={"user-profile-section-close-button-icon"}
+               alt="Cross"/>
+        </div>
+
         <div className={"user-profile-avatar-and-meta"}>
           <div className={"user-profile-avatar"}
                style={{
