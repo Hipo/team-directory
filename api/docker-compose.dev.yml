@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:1.15.7
+    depends_on:
+      - app
+    ports:
+      - 80:80
+    depends_on:
+      - app
+    links:
+      - app:app-async  # We only run a single server in development
+    volumes:
+      - ./conf/nginx_development.conf:/etc/nginx/conf.d/default.conf
+
+  app:
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.local
+      - PYTHONBREAKPOINT=ipdb.set_trace
+    tty: true
+    ports:
+      # For debugging
+      - 3000:3000
+
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD=test
+
+  celery:
+    environment:
+      - C_FORCE_ROOT=1
+      - DJANGO_SETTINGS_MODULE=settings.local
+
+  celerybeat:
+    environment:
+      - C_FORCE_ROOT=1
+      - DJANGO_SETTINGS_MODULE=settings.local
+
+  flower:
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.local
+    ports:
+      - 5555:5555
+
+  app-async:
+    command: daphne --bind 0.0.0.0 -p 8000 asgi:application
+    image: moku_api
+    volumes:
+      - './moku:/app'
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.local
+    ports:
+      - 8000:8000
