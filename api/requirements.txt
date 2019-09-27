@@ -3,3 +3,4 @@ djangorestframework==3.10.3
 flake8==3.7.8
 django-slack-oauth==1.5.0
 django-extra-fields==1.2.4
+slackclient==2.2.0
