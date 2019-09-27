@@ -11,6 +11,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class TeamSerializer(serializers.ModelSerializer):
+    members = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
 
     class Meta:
         fields = '__all__'
