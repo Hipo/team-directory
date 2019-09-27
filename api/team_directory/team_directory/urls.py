@@ -18,7 +18,7 @@ from django.urls import include, path
 from django.conf.urls import url
 
 from slack_auth.views import AuthenticationView
-from members.views import MembersView, MemberDetailView
+from members.views import MembersView, MemberDetailView, MyMemberDetailView
 from projects.views import ProjectsView, ProjectDetailView, TeamsView, TeamDetailView
 from questions.views import QuestionsView, QuestionDetailView, AnswersView, AnswerDetailView
 
@@ -30,6 +30,7 @@ urlpatterns = [
     # Members
     url(r'^api/members/$', MembersView.as_view()),
     url(r'^api/members/(?P<pk>[-\d]+)/$', MemberDetailView.as_view()),
+    url(r'^api/members/me/$', MyMemberDetailView.as_view()),
     # Projects
     url(r'^api/projects/$', ProjectsView.as_view()),
     url(r'^api/projects/(?P<pk>[-\d]+)/$', ProjectDetailView.as_view()),
