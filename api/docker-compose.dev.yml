@@ -44,12 +44,15 @@ services:
     ports:
       - 5555:5555
 
-  app-async:
-    command: daphne --bind 0.0.0.0 -p 8000 asgi:application
-    image: moku_api
-    volumes:
-      - './moku:/app'
-    environment:
-      - DJANGO_SETTINGS_MODULE=settings.local
-    ports:
-      - 8000:8000
+
+
+
+
+
+
+
+
+
+
+
+
