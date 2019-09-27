@@ -10,7 +10,7 @@ class Question(models.Model):
         (QUESTION_TYPE_INFORM, 'inform')
     )
 
-    type = models.CharField(choices=QUESTION_TYPE_CHOICES, max_length=255, null=True, blank=True)
+    type = models.CharField(choices=QUESTION_TYPE_CHOICES, max_length=255, null=True, blank=True, default="inform")
     category = models.CharField(max_length=255, null=True, blank=True)
     body = models.TextField()
 
