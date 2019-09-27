@@ -13,11 +13,11 @@ function Header() {
              alt="Company Logo"/>
 
         <span className={"main-header-logo-wrapper-text"}>
-          {"team"}
+          {"Agora"}
         </span>
       </div>
       <SearchBox/>
-      
+
     </header>
   );
 }
