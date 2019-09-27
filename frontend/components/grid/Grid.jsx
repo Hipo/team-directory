@@ -8,8 +8,8 @@ class Grid extends Component {
   renderItems = () => {
     const {items} = this.props;
 
-    return items.map(item => (
-      <GridItem key={item.id}
+    return items.map((item, index) => (
+      <GridItem key={`grid-item-${item.id || index}`}
                 item={item}/>
     ))
   }

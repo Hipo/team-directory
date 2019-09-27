@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 import groupBy from "lodash/groupBy";
 
 import Layout from "../../components/layout/Layout";
+import Grid from "../../components/grid/Grid";
 
 import "./_user.scss";
 
-function User({user, iceBreakerQuestions}) {
+function User({user, users, iceBreakerQuestions}) {
   const groupedQuestions = groupBy(iceBreakerQuestions, "category");
   const [activeQuestionCategory, setActiveQuestionCategory] = useState(Object.keys(groupedQuestions)[0]);
 
@@ -21,6 +22,8 @@ function User({user, iceBreakerQuestions}) {
 
   return (
     <Layout user={user}>
+      <Grid items={users}/>
+
       <div className={"user-profile-backdrop"}
            onClick={handleBackdropClick}/>
       <div className={"user-profile-section"}>
@@ -145,6 +148,103 @@ User.getInitialProps = function ({query}) {
         title: "2 What do you like most about your job?",
         answer: "2 Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas sed diam eget risus varius blandit sit amet non magna.",
         category: "Life style"
+      }
+    ],
+    users: [
+      {
+        avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
+        fullName: "Mucahit Tutuncu",
+        userName: "mucahit",
+        team: "Frontend",
+        birthDate: "28 June, 1997",
+        oneLiners: [
+          "Likes flying kites",
+          "Lives in Barcelona",
+          "Eats too much chocolate"
+        ],
+        currentProjects: [
+          "Moment"
+        ],
+        pastProjects: [
+          "blogTO",
+          "Moku"
+        ]
+      },
+      {
+        avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
+        fullName: "Mucahit Tutuncu",
+        userName: "mucahit",
+        team: "Frontend",
+        birthDate: "28 June, 1997",
+        oneLiners: [
+          "Likes flying kites",
+          "Lives in Barcelona",
+          "Eats too much chocolate"
+        ],
+        currentProjects: [
+          "Moment"
+        ],
+        pastProjects: [
+          "blogTO",
+          "Moku"
+        ]
+      },
+      {
+        avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
+        fullName: "Mucahit Tutuncu",
+        userName: "mucahit",
+        team: "Frontend",
+        birthDate: "28 June, 1997",
+        oneLiners: [
+          "Likes flying kites",
+          "Lives in Barcelona",
+          "Eats too much chocolate"
+        ],
+        currentProjects: [
+          "Moment"
+        ],
+        pastProjects: [
+          "blogTO",
+          "Moku"
+        ]
+      },
+      {
+        avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
+        fullName: "Mucahit Tutuncu",
+        userName: "mucahit",
+        team: "Frontend",
+        birthDate: "28 June, 1997",
+        oneLiners: [
+          "Likes flying kites",
+          "Lives in Barcelona",
+          "Eats too much chocolate"
+        ],
+        currentProjects: [
+          "Moment"
+        ],
+        pastProjects: [
+          "blogTO",
+          "Moku"
+        ]
+      },
+      {
+        avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
+        fullName: "Mucahit Tutuncu",
+        userName: "mucahit",
+        team: "Frontend",
+        birthDate: "28 June, 1997",
+        oneLiners: [
+          "Likes flying kites",
+          "Lives in Barcelona",
+          "Eats too much chocolate"
+        ],
+        currentProjects: [
+          "Moment"
+        ],
+        pastProjects: [
+          "blogTO",
+          "Moku"
+        ]
       }
     ]
   }

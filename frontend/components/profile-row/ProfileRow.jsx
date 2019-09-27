@@ -4,7 +4,7 @@ import "./_profile-row.scss";
 
 function ProfileRow({user}) {
   function handleProfileRowClick() {
-    Router.push(`/profile/${user.userName}`);
+    Router.push(`/profile/[user]`, `/profile/${user.userName}`)
   }
 
   return (
