@@ -124,8 +124,14 @@ User.propTypes = {
   teamList: PropTypes.array
 };
 
-User.getInitialProps = function ({query}) {
+User.getInitialProps = async function ({query}) {
+  // const {response: user} = await apiHandler.get(`/api/members/${query.username}`);
+  // const {response: users} = await apiHandler.get(`/api/members`);
+  // const {response: projects} = await apiHandler.get(`/api/projects`);
+  // const {response: teams} = await apiHandler.get(`/api/teams`);
+
   return {
+    query,
     user: {
       avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
       fullName: "Mucahit Tutuncu",

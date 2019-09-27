@@ -5,6 +5,7 @@ import Header from "../header/Header";
 import Sidebar from "../sidebar/Sidebar";
 
 import "./_layout.scss";
+import withUser from "../../network/withUser";
 
 function Layout(props) {
   return (
@@ -47,4 +48,4 @@ Layout.propTypes = {
   teamList: PropTypes.array
 };
 
-export default Layout;
+export default withUser(Layout);

@@ -1,11 +1,22 @@
 import React from "react";
+import axios from "axios"
 
 import Layout from "../../components/layout/Layout";
 import Grid from "../../components/grid/Grid";
 
 import "./_index.scss";
+import apiHandler from "../../network/apiHandler";
 
 function Home(props) {
+  if (props.token) {
+    axios.defaults.baseURL = "http://127.0.0.1:8000/api";
+    axios.defaults.headers['Authorization'] = `Token ${props.token}`;
+  }
+
+  console.log(axios.defaults);
+
+  axios.get("/members/me/");
+
   const {
     user,
     users, projectList,teamList
@@ -18,28 +29,31 @@ function Home(props) {
   )
 }
 
-Home.getInitialProps = () => {
+Home.getInitialProps = async ({query: {token}}) => {
+  // console.log(user);
+
   // `user` should be fetched from API
   return {
-    user: {
-      avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
-      fullName: "Mucahit Tutuncu",
-      userName: "mucahit",
-      team: "Frontend",
-      birthDate: "28 June, 1997",
-      oneLiners: [
-        "Likes flying kites",
-        "Lives in Barcelona",
-        "Eats too much chocolate"
-      ],
-      currentProjects: [
-        "Moment"
-      ],
-      pastProjects: [
-        "blogTO",
-        "Moku"
-      ]
-    },
+    token,
+    // user: {
+    //   avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
+    //   fullName: "Mucahit Tutuncu",
+    //   userName: "mucahit",
+    //   team: "Frontend",
+    //   birthDate: "28 June, 1997",
+    //   oneLiners: [
+    //     "Likes flying kites",
+    //     "Lives in Barcelona",
+    //     "Eats too much chocolate"
+    //   ],
+    //   currentProjects: [
+    //     "Moment"
+    //   ],
+    //   pastProjects: [
+    //     "blogTO",
+    //     "Moku"
+    //   ]
+    // },
     iceBreakerQuestions: [
       {
         title: "What do you like most about your job?",
