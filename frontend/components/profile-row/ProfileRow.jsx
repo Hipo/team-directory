@@ -1,12 +1,18 @@
+import Router from "next/router";
+
 import "./_profile-row.scss";
 
-function ProfileRow(props) {
-    return (
-        <div className={"profile-row"}>
-            <h1 className={"profile-row-user-name"}>{props.user.fullName}</h1>
-            <div className={"profile-row-photo"} style={{backgroundImage:`url(${props.user.avatar})`}}/>
-        </div>
-    )
+function ProfileRow({user}) {
+  function handleProfileRowClick() {
+    Router.push(`/profile/${user.userName}`);
+  }
+
+  return (
+    <div className={"profile-row"} onClick={handleProfileRowClick}>
+      <h1 className={"profile-row-user-name"}>{user.fullName}</h1>
+      <div className={"profile-row-photo"} style={{backgroundImage:`url(${user.avatar})`}}/>
+    </div>
+  )
 }
 
 export default ProfileRow;

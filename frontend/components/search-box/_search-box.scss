@@ -1,22 +1,22 @@
 @import "../layout/color";
 
 .search-box{
-    display: flex;
+  display: flex;
 
-    .input{   
-        padding-left:63px;
-    }    
+  .input{
+    padding-left:63px;
+  }
 }
 
 .search-box-icon{
-    display: block;
-    position: absolute;
-    
-    width: 24px;
-    height: 24px;
+  display: block;
+  position: absolute;
 
-    margin: 16px 25px;
+  width: 18px;
+  height: 18px;
 
-    background-image: url("../../static/assets/images/search-icon.svg")
-    
+  margin: 13px 25px;
+
+  background-image: url("../../static/assets/images/search-icon.svg");
+  background-size: cover;
 }

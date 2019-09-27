@@ -4,11 +4,10 @@
   display: grid;
   grid-template-columns: 250px 2fr 1fr;
 
-  padding: 35px 40px;
+  padding: 25px 30px;
 
-  .main-header-logo-wrapper {
-    display: flex;
-    align-items: center;
+  .main-header-logo {
+    vertical-align: sub;
   }
 
   .main-header-logo-wrapper-text {
@@ -26,5 +25,9 @@
 
       color: $silver;
     }
+  }
+
+  @media screen and (max-width: 1024px){
+    padding: 20px;
   }
 }

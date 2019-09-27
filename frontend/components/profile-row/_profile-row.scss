@@ -1,20 +1,23 @@
 @import "../layout/font";
 
-.profile-row{
-    display: flex;
-    justify-content: space-between;
-    justify-self: flex-end;
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  justify-self: flex-end;
+
+  cursor: pointer;
 }
 
-.profile-row-photo{
-    width: 64px;
-    height: 64px;
+.profile-row-photo {
+  width: 64px;
+  height: 64px;
 
-    margin-left:16px;
-    
-    border-radius: 100%;    
+  margin-left: 16px;
+  background-size: cover;
+
+  border-radius: 100%;
 }
 
-.profile-row-user-name{
-    @include HindClassic();
+.profile-row-user-name {
+  @include HindClassic();
 }

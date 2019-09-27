@@ -109,6 +109,7 @@ User.getInitialProps = function ({query}) {
     user: {
       avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
       fullName: "Mucahit Tutuncu",
+      userName: "mucahit",
       team: "Frontend Team",
       birthDate: "28 June, 1997",
       oneLiners: [

@@ -2,25 +2,24 @@
 @import "../layout/font";
 
 .input {
-    @include HindClassic();
+  @include HindClassic();
 
-    padding: 16px 25px;
-    background-color: $mystic;
+  padding: 0 25px;
+  background-color: $mystic;
 
-    border-radius: 28px;
-    border:none;
+  border-radius: 28px;
+  border:none;
 
-    width: 505px;
-    height: 56px;
+  height: 45px;
 
-   &::-webkit-input-placeholder {
+  &::-webkit-input-placeholder {
     color: $gull-gray;
   }
 
   &:focus {
     background-color:white;
+
     border: 2px solid $dark;
     outline: none;
-
   }
 }

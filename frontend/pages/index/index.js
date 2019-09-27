@@ -16,19 +16,20 @@ Home.getInitialProps = () => {
   // `user` should be fetched from API
   return {
     user: {
-      avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512.png",
-        fullName: "Mucahit Tutuncu",
-        team: "Frontend",
-        birthDate: "28 June, 1997",
-        oneLiners: [
+      avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512",
+      fullName: "Mucahit Tutuncu",
+      userName: "mucahit",
+      team: "Frontend",
+      birthDate: "28 June, 1997",
+      oneLiners: [
         "Likes flying kites",
         "Lives in Barcelona",
         "Eats too much chocolate"
       ],
-        currentProjects: [
+      currentProjects: [
         "Moment"
       ],
-        pastProjects: [
+      pastProjects: [
         "blogTO",
         "Moku"
       ]
