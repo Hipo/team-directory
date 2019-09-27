@@ -4,6 +4,7 @@ from projects.models import Project, Team
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    members = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
 
     class Meta:
         fields = '__all__'
