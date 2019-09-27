@@ -17,7 +17,7 @@ services:
 
   app:
     environment:
-      - DJANGO_SETTINGS_MODULE=settings.local
+      - DJANGO_SETTINGS_MODULE=team_directory.settings
       - PYTHONBREAKPOINT=ipdb.set_trace
     tty: true
     ports:
@@ -31,16 +31,16 @@ services:
   celery:
     environment:
       - C_FORCE_ROOT=1
-      - DJANGO_SETTINGS_MODULE=settings.local
+      - DJANGO_SETTINGS_MODULE=team_directory.settings
 
   celerybeat:
     environment:
       - C_FORCE_ROOT=1
-      - DJANGO_SETTINGS_MODULE=settings.local
+      - DJANGO_SETTINGS_MODULE=team_directory.settings
 
   flower:
     environment:
-      - DJANGO_SETTINGS_MODULE=settings.local
+      - DJANGO_SETTINGS_MODULE=team_directory.settings
     ports:
       - 5555:5555
 
