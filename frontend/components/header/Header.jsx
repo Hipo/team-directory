@@ -3,8 +3,9 @@ import Logo from "../../static/assets/images/hipo-logo.svg";
 import "./_header.scss";
 
 import SearchBox from "../search-box/SearchBox";
+import ProfileRow from "../profile-row/ProfileRow";
 
-function Header() {
+function Header(props) {
   return (
     <header className={"main-header"}>
       <div className={"main-header-logo-wrapper"}>
@@ -17,6 +18,7 @@ function Header() {
         </span>
       </div>
       <SearchBox/>
+      <ProfileRow user={props.user}/>
       
     </header>
   );

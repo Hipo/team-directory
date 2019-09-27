@@ -17,7 +17,7 @@ function Layout(props) {
 
       {props.user ? (
         <>
-          <Header/>
+          <Header user={props.user}/>
 
           <div className={"team-directory-app-body"}>
             <Sidebar/>

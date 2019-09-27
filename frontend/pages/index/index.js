@@ -17,8 +17,40 @@ Home.getInitialProps = () => {
   // `user` should be fetched from API
   return {
     user: {
-      name: "John Doe"
-    }
+      avatar: "https://ca.slack-edge.com/T025D0M1W-UB5CGLR1B-4d1568dc7adf-512.png",
+        fullName: "Mucahit Tutuncu",
+        team: "Frontend",
+        birthDate: "28 June, 1997",
+        oneLiners: [
+        "Likes flying kites",
+        "Lives in Barcelona",
+        "Eats too much chocolate"
+      ],
+        currentProjects: [
+        "Moment"
+      ],
+        pastProjects: [
+        "blogTO",
+        "Moku"
+      ]
+    },
+    iceBreakerQuestions: [
+      {
+        title: "What do you like most about your job?",
+        answer: "Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas sed diam eget risus varius blandit sit amet non magna.",
+        category: "Hobbies"
+      },
+      {
+        title: "1 What do you like most about your job?",
+        answer: "2 Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas sed diam eget risus varius blandit sit amet non magna.",
+        category: "Work Experience"
+      },
+      {
+        title: "2 What do you like most about your job?",
+        answer: "2 Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas sed diam eget risus varius blandit sit amet non magna.",
+        category: "Life style"
+      }
+    ]
   }
 };
 

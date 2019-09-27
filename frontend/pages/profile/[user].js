@@ -4,15 +4,15 @@ import Layout from "../../components/layout/Layout";
 
 function User(props) {
   return (
-    <Layout>
-      <h1>Hello, {props.username}</h1>
+    <Layout user={props.user}>
+      <h1>Hello, {props.user.name}</h1>
     </Layout>
   )
 }
 
 User.getInitialProps = function ({query}) {
   return {
-    username: query.user
+    user: {name:"temp"}
   }
 }
 
