@@ -8,7 +8,7 @@ import Grid from "../../components/grid/Grid";
 
 import "./_user.scss";
 
-function User({user, users, iceBreakerQuestions}) {
+function User({user, users, iceBreakerQuestions, projectList, teamList}) {
   const groupedQuestions = groupBy(iceBreakerQuestions, "category");
   const [activeQuestionCategory, setActiveQuestionCategory] = useState(Object.keys(groupedQuestions)[0]);
 
@@ -21,7 +21,9 @@ function User({user, users, iceBreakerQuestions}) {
   }
 
   return (
-    <Layout user={user}>
+    <Layout user={user}
+            projectList={projectList}
+            teamList={teamList}>
       <Grid items={users}/>
 
       <div className={"user-profile-backdrop"}
@@ -109,7 +111,9 @@ function User({user, users, iceBreakerQuestions}) {
 
 User.propTypes = {
   user: PropTypes.object.isRequired,
-  iceBreakerQuestions: PropTypes.array
+  iceBreakerQuestions: PropTypes.array,
+  projectList: PropTypes.array,
+  teamList: PropTypes.array
 };
 
 User.getInitialProps = function ({query}) {
@@ -250,6 +254,34 @@ User.getInitialProps = function ({query}) {
           "blogTO",
           "Moku"
         ]
+      }
+    ],
+    projectList: [
+      {
+        members:[6],
+        name:"Algorand"
+      },
+      {
+        members:[5],
+        name:"Moment"
+      },
+      {
+        members:[2],
+        name:"Wolarf"
+      }
+    ],
+    teamList: [
+      {
+        members:[10],
+        name:"Backend"
+      },
+      {
+        members:[6],
+        name:"Frontend"
+      },
+      {
+        members:[4],
+        name:"IOS"
       }
     ]
   }

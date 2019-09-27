@@ -8,11 +8,11 @@ import "./_index.scss";
 function Home(props) {
   const {
     user,
-    users
+    users, projectList,teamList
   } = props;
 
   return (
-    <Layout user={user}>
+    <Layout user={user} projectList={projectList} teamList={teamList}>
       <Grid items={users}/>
     </Layout>
   )
@@ -152,6 +152,34 @@ Home.getInitialProps = () => {
           "blogTO",
           "Moku"
         ]
+      }
+    ],
+    projectList: [
+      {
+        members:[6],
+        name:"Algorand"
+      },
+      {
+        members:[5],
+        name:"Moment"
+      },
+      {
+        members:[2],
+        name:"Wolarf"
+      }
+    ],
+    teamList: [
+      {
+        members:[10],
+        name:"Backend"
+      },
+      {
+        members:[6],
+        name:"Frontend"
+      },
+      {
+        members:[4],
+        name:"IOS"
       }
     ]
   }

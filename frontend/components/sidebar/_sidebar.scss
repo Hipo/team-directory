@@ -1,0 +1,40 @@
+@import "../layout/font";
+@import "../layout/color";
+
+.sidebar-tabs{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    width: 166px;
+    height: 36px;
+}
+
+.sidebar-tab-name{
+    @include HindClassic();
+
+    font-size: 16px;
+    text-transform: uppercase;
+
+    border:none;
+    outline: none;
+
+    cursor: pointer;
+
+    color:$gull-gray;
+
+    &.active{
+        border-bottom: 3px solid $dark;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-top-right-radius: 2px;
+        border-top-left-radius: 2px;
+         
+        color:$dark; 
+    }
+}
+
+.sidebar-tab-items{
+    margin-top:25px;
+    margin-right: 58px;
+}

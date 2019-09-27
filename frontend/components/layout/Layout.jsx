@@ -20,7 +20,7 @@ function Layout(props) {
           <Header user={props.user}/>
 
           <div className={"team-directory-app-body"}>
-            <Sidebar/>
+            <Sidebar projectList={props.projectList} teamList={props.teamList}/>
 
             <div className={"team-directory-app-body-content"}>
               {props.children}
@@ -42,7 +42,9 @@ function Layout(props) {
 Layout.propTypes = {
   user: PropTypes.object,
   children: PropTypes.node,
-  metaTitle: PropTypes.string
+  metaTitle: PropTypes.string,
+  projectList: PropTypes.array,
+  teamList: PropTypes.array
 };
 
 export default Layout;
