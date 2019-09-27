@@ -14,12 +14,11 @@ function Header(props) {
              alt="Company Logo"/>
 
         <span className={"main-header-logo-wrapper-text"}>
-          {"team"}
+          {"Agora"}
         </span>
       </div>
       <SearchBox/>
       <ProfileRow user={props.user}/>
-      
     </header>
   );
 }

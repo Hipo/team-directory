@@ -13,7 +13,6 @@ function Home({user}) {
 }
 
 Home.getInitialProps = () => {
-
   // `user` should be fetched from API
   return {
     user: {
