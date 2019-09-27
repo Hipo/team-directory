@@ -19,6 +19,7 @@ from django.conf.urls import url
 
 from slack_auth.views import AuthenticationView
 from members.views import MembersView, MemberDetailView
+from projects.views import ProjectsView, ProjectDetailView, TeamsView, TeamDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +28,10 @@ urlpatterns = [
     url(r'^slack/success', AuthenticationView.as_view()),
     # Members
     url(r'^api/members/$', MembersView.as_view()),
-    url(r'^api/members/(?P<pk>[-\d]+)/$', MemberDetailView.as_view())
+    url(r'^api/members/(?P<pk>[-\d]+)/$', MemberDetailView.as_view()),
+    # Projects
+    url(r'^api/projects/$', ProjectsView.as_view()),
+    url(r'^api/projects/(?P<pk>[-\d]+)/$', ProjectDetailView.as_view()),
+    url(r'^api/teams/$', TeamsView.as_view()),
+    url(r'^api/teams/(?P<pk>[-\d]+)/$', TeamDetailView.as_view()),
 ]
