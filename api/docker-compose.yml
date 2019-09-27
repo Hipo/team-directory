@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:1.15.7
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: .
+    image: team_directory_api
+    volumes:
+      - './team_directory:/app'
+
+  postgres:
+    image: mdillon/postgis:9.6
+    volumes:
+      - '.data/db:/var/lib/postgresql/data'
+
+  redis:
+    image: redis:4.0.10
+    volumes:
+      - '.data/redis:/data'
+    command: redis-server --appendonly yes
+
+  celery:
+    image: team_directory_api
+    environment:
+      - C_FORCE_ROOT=1
+    depends_on:
+      - app
+    volumes:
+      - './team_directory:/app'
+    command: celery worker --app=celeryapp --loglevel=INFO --concurrency=3
+    restart: unless-stopped
+
+  celerybeat:
+    image: team_directory_api
+    environment:
+      - C_FORCE_ROOT=1
+    depends_on:
+      - app
+    volumes:
+      - './team_directory:/app'
+    command: celery beat --app=celeryapp --pidfile=
+    restart: unless-stopped
+
+  flower:
+    image: team_directory_api
+    depends_on:
+      - celerybeat
+      - celery
+    volumes:
+      - './team_directory:/app'
+    command: celery flower --app=celeryapp --basic_auth=john:v4r14bl3

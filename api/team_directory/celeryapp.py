@@ -19,8 +19,8 @@ app.conf.update(
             'task': 'core.tasks.heartbeat',
             'schedule': timezone.timedelta(minutes=1),
         },
-        'schedule_nudges': {
-           'task': 'users.tasks.schedule_nudges',
+        'send_questions_to_slack': {
+           'task': 'questions.tasks.send_questions_to_slack',
            'schedule': schedules.crontab(minute='*', hour='*')
         }
     }
