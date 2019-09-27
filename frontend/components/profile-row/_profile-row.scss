@@ -1,0 +1,35 @@
+@import "../layout/font";
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  justify-self: flex-end;
+
+  cursor: pointer;
+}
+
+.profile-row-avatar {
+  width: 64px;
+  height: 64px;
+
+  margin-left: 16px;
+  background-size: cover;
+
+  border-radius: 100%;
+}
+
+.profile-row-user-name {
+  @include HindClassic();
+}
+
+@media screen and (min-width: 567px) and (max-width: 768px){
+  .profile-row-user-name {
+    display: none;
+  }
+}
+
+@media screen and (max-width:567px){
+  .profile-row{
+    justify-self: center;
+  }
+}

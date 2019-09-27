@@ -1,0 +1,43 @@
+@import "../layout/color";
+
+.main-header {
+  display: grid;
+  grid-template-columns: 250px 2fr 1fr;
+
+  padding: 25px 40px;
+
+  .main-header-logo {
+    vertical-align: sub;
+  }
+
+  .main-header-logo-wrapper-text {
+    display: inline-block;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    &:before {
+      display: inline-block;
+
+      content: "/";
+
+      margin: 0 10px;
+
+      color: $silver;
+    }
+  }
+
+  @media screen and (max-width: 1024px){
+    padding: 20px;
+  }
+
+  @media screen and (max-width: 576px){
+    grid-template-columns: 1fr;
+    grid-row-gap: 20px;
+    justify-items: center;
+
+    .main-header-logo-wrapper{
+      align-content: center;
+    }
+  }
+}

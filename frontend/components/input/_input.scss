@@ -1,0 +1,26 @@
+@import "../layout/color";
+@import "../layout/font";
+
+.input {
+  @include HindClassic();
+
+  padding: 0 25px;
+  padding-top: 2px;
+  background-color: $mystic;
+
+  border-radius: 28px;
+  border:none;
+
+  height: 45px;
+
+  &::-webkit-input-placeholder {
+    color: $gull-gray;
+  }
+
+  &:focus {
+    background-color:white;
+
+    border: 2px solid $dark;
+    outline: none;
+  }
+}
