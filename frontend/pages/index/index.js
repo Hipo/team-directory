@@ -161,6 +161,14 @@ Home.getInitialProps = () => {
       },
       {
         members:[5],
+        name:"Aventri"
+      },
+      {
+        members:[5],
+        name:"Bauer"
+      },
+      {
+        members:[5],
         name:"Moment"
       },
       {
@@ -176,6 +184,10 @@ Home.getInitialProps = () => {
       {
         members:[6],
         name:"Frontend"
+      },
+      {
+        members:[4],
+        name:"IOS"
       },
       {
         members:[4],

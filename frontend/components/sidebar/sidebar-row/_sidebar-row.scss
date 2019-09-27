@@ -9,11 +9,22 @@
         @include HindClassic(); 
 
         margin:0;
+        padding: 0;
         cursor: pointer;
         line-height: 56px;
 
         border:none;
         outline: none;
+
+        background: transparent;
+
+        &.active{
+            color:$alizarin-crimson;
+        }
+
+        &:hover{
+            opacity: 0.9;
+        }
     }
 
     .sidebar-row-count{
