@@ -13,6 +13,10 @@
   top: 0; right: 0; bottom: 0;
   z-index: 4;
 
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-name: fadeInRight;
+
   padding: 36px;
 
   width: 720px;
@@ -167,5 +171,20 @@
     .user-profile-detailed-info-row-title {
       text-align: left;
     }
+  }
+}
+
+@keyframes fadeInRight{
+  0%{
+    opacity:0;
+    -webkit-transform:translateX(200px);
+    -ms-transform:translateX(200px);
+    transform:translateX(200px)
+  }
+  100%{
+    opacity:1;
+    -webkit-transform:translateX(0);
+    -ms-transform:translateX(0);
+    transform:translateX(0)
   }
 }

@@ -34,7 +34,12 @@ function User({user, users, iceBreakerQuestions}) {
                }}/>
 
           <div className={"user-profile-meta"}>
-            <h1 className={"user-profile-full-name"}>{user.fullName}</h1>
+            {user.fullName.split(" ").map((item, index) => (
+              <h1 key={index}
+                  className={"user-profile-full-name"}>
+                {item}
+              </h1>
+            ))}
             <h2 className={"user-profile-team"}>{user.team}</h2>
             <h2 className={"user-profile-birth-date"}>{user.birthDate}</h2>
           </div>
