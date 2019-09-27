@@ -1,4 +1,7 @@
 env
 .vscode
-.sqlite3
+*.sqlite3
 __pycache__/
+.DS_Store
+secrets.py
+.data

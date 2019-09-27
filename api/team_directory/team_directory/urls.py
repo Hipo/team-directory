@@ -14,8 +14,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from django.conf.urls import url
+
+from slack_auth.views import AuthenticationView
+from members.views import MembersView, MemberDetailView
+from projects.views import ProjectsView, ProjectDetailView, TeamsView, TeamDetailView
+from questions.views import QuestionsView, QuestionDetailView, AnswersView, AnswerDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Slack OAuth
+    url(r'^slack/', include('django_slack_oauth.urls')),
+    url(r'^slack/success', AuthenticationView.as_view()),
+    # Members
+    url(r'^api/members/$', MembersView.as_view()),
+    url(r'^api/members/(?P<pk>[-\d]+)/$', MemberDetailView.as_view()),
+    # Projects
+    url(r'^api/projects/$', ProjectsView.as_view()),
+    url(r'^api/projects/(?P<pk>[-\d]+)/$', ProjectDetailView.as_view()),
+    url(r'^api/teams/$', TeamsView.as_view()),
+    url(r'^api/teams/(?P<pk>[-\d]+)/$', TeamDetailView.as_view()),
+    # Questions
+    url(r'^api/questions/$', QuestionsView.as_view()),
+    url(r'^api/questions/(?P<pk>[-\d]+)/$', QuestionDetailView.as_view()),
+    url(r'^api/answers/$', AnswersView.as_view()),
+    url(r'^api/answers/(?P<pk>[-\d]+)/$', AnswerDetailView.as_view()),
 ]
