@@ -6,9 +6,8 @@
   overflow: hidden;
   cursor: pointer;
 
-  .grid-item-image {
-    width: 100%;
-  }
+  background-size: cover;
+  background-position: center;
 
   .grid-item-name {
     display: flex;

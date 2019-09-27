@@ -35,6 +35,12 @@ p {
 
     padding: 35px 40px;
   }
+
+  @media screen and (max-width: 768px) {
+    .team-directory-app-body {
+      grid-template-columns: 1fr;
+    }
+  }
 }
 
 

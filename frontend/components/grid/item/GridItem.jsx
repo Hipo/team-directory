@@ -21,9 +21,10 @@ function GridItem({item}) {
 
   return (
     <div className={"grid-item"}
-         onClick={handleGridItemClick}>
-      <img src={avatar}
-           className={"grid-item-image"}/>
+         onClick={handleGridItemClick}
+         style={{
+           backgroundImage: `url(${avatar})`
+         }}>
 
       <div className={"grid-item-name"}>
         {fullName}
