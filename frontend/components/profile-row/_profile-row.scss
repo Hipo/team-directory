@@ -8,7 +8,7 @@
   cursor: pointer;
 }
 
-.profile-row-photo {
+.profile-row-avatar {
   width: 64px;
   height: 64px;
 
@@ -20,4 +20,10 @@
 
 .profile-row-user-name {
   @include HindClassic();
+}
+
+@media screen and (min-width: 567px) and (max-width: 768px){
+  .profile-row-user-name {
+    display: none;
+  }
 }

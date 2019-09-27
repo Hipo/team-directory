@@ -10,7 +10,7 @@ function ProfileRow({user}) {
   return (
     <div className={"profile-row"} onClick={handleProfileRowClick}>
       <h1 className={"profile-row-user-name"}>{user.fullName}</h1>
-      <div className={"profile-row-photo"} style={{backgroundImage:`url(${user.avatar})`}}/>
+      <div className={"profile-row-avatar"} style={{backgroundImage:`url(${user.avatar})`}}/>
     </div>
   )
 }
