@@ -37,7 +37,11 @@ class GridItem extends Component {
             {oneLiners.map(oneLiner => (
               <li className={"grid-item-detail-one-liner-list-item"}
                   key={oneLiner}>
-                {oneLiner}
+                <span className={"grid-item-detail-one-liner-list-item-bullet"}/>
+
+                <p className={"grid-item-detail-one-liner-list-item-text"}>
+                  {oneLiner}
+                </p>
               </li>
             ))}
           </ul>

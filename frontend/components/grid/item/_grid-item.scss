@@ -60,11 +60,10 @@
 
       .grid-item-detail-team,
       .grid-item-detail-current-projects {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         font-family: "Hind", sans-serif;
         font-weight: bold;
         font-size: 24px;
-        line-height: 26px;
         color: #FFFFFF;
         max-width: 100%;
         overflow: hidden;
@@ -72,18 +71,40 @@
         white-space: nowrap;
       }
 
+      .grid-item-detail-current-projects {
+        font-size: 20px;
+      }
+
       .grid-item-detail-one-liner-list {
         display: block;
-        list-style-type: circle;
-        margin: 0;
-        padding: 0;
-        padding-left: 20px;
 
         .grid-item-detail-one-liner-list-item {
+          display: grid;
+          align-items: center;
+          grid-template-columns: 10px 1fr;
+          grid-gap: 10px;
           font-family: "Hind", sans-serif;
           font-size: 18px;
           line-height: 36px;
           color: #FFFFFF;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          .grid-item-detail-one-liner-list-item-bullet {
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+            border: solid 1px #FFFFFF;
+          }
+
+          .grid-item-detail-one-liner-list-item-text {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
       }
 
