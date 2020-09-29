@@ -69,7 +69,7 @@ class AuthenticationView(GenericAPIView):
                 email=user_data["profile"]["email"],
                 first_name=user_data["profile"].get("first_name") or user_data["name"],
                 last_name=user_data["profile"].get("last_name") or "",
-                image=user_data["profile"]["image_original"],
+                image=user_data["profile"].get("image_original") or "",
                 timezone=user_data["tz"],
                 agora_initialized=True,
             )
