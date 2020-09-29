@@ -40,7 +40,6 @@ INSTALLED_APPS = [
 
     # Third Party Apps
     'rest_framework',
-    'django_slack_oauth',
     'rest_framework.authtoken',
     'django_extensions',
 ]

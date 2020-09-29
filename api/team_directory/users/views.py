@@ -66,14 +66,16 @@ class AuthenticationView(GenericAPIView):
                 slack_user_id=user_data["id"],
                 slack_access_token=access_token,
                 slack_username=user_data["name"],
-                username=user_data["id"],
-                first_name=user_data["profile"]["first_name"],
-                last_name=user_data["profile"]["last_name"],
+                email=user_data["profile"]["email"],
+                first_name=user_data["profile"].get("first_name") or user_data["name"],
+                last_name=user_data["profile"].get("last_name") or "",
                 image=user_data["profile"]["image_original"],
-                timezone=user_data["tz"]
+                timezone=user_data["tz"],
+                agora_initialized=True,
             )
         else:
             user.slack_access_token = access_token
+            user.agora_initialized = True
             user.save()
 
         token, created = Token.objects.get_or_create(user=user)
