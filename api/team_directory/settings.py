@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/2.2/ref//
 """
 
 import os
-from .secrets import *
+from .secrets.development import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -16,7 +16,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development  - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -35,11 +34,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Django Apps
-    'links',
-    'members',
-    'projects',
-    'questions',
-    'slack_auth',
+    'team_directory.users',
+    'team_directory.projects',
+    'team_directory.questions',
 
     # Third Party Apps
     'rest_framework',
@@ -128,13 +125,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Django Slack OAuth
-
-SLACK_SCOPE = 'chat:write:bot,im:history,im:read,bot,users:read'
-SLACK_SUCCESS_REDIRECT_URL = "/slack/success"
-SLACK_PIPELINES = [
-    'slack_auth.pipelines.authenticate',
-]
+# Slack
+SLACK_REDIRECT_URL = "http://127.0.0.1:3000/slack/login/"
 
 # Rest Framework
 
@@ -146,3 +138,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
 }
+
+AUTH_USER_MODEL = "users.User"

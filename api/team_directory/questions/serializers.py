@@ -2,7 +2,7 @@ from drf_extra_fields.relations import PresentablePrimaryKeyRelatedField
 
 from rest_framework import serializers
 
-from questions.models import Question, Answer
+from .models import Question, Answer
 
 
 class QuestionSerializer(serializers.ModelSerializer):

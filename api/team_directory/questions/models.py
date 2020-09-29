@@ -17,5 +17,5 @@ class Question(models.Model):
 
 class Answer(models.Model):
     body = models.TextField()
-    member = models.ForeignKey("members.Member", on_delete=models.CASCADE, related_name="answers")
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="answers")
     question = models.ForeignKey("questions.Question", on_delete=models.CASCADE, related_name="answers")

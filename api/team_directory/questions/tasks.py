@@ -1,17 +1,17 @@
-from celeryapp import app
+from celery.task import task
 from slack import WebClient
 
-from members.models import Member
-from questions.models import Question
+from team_directory.users.models import User
+from team_directory.questions.models import Question
 
 
-@app.task()
+@task()
 def send_questions_to_slack():
-    for member in Member.objects.all():
+    for user in User.objects.all():
         for question in Question.objects.all():
-            token = member.token
+            token = user.token
             slack_client = WebClient(token)
             slack_client.chat_postMessage(
-                channel="@" + member.user.username,
+                channel="@" + user.user.username,
                 text=question.body
             )

@@ -12,7 +12,7 @@ services:
       context: .
     image: team_directory_api
     volumes:
-      - './team_directory:/app'
+      - '.:/app'
 
   postgres:
     image: mdillon/postgis:9.6
@@ -32,7 +32,7 @@ services:
     depends_on:
       - app
     volumes:
-      - './team_directory:/app'
+      - '.:/app'
     command: celery worker --app=celeryapp --loglevel=INFO --concurrency=3
     restart: unless-stopped
 
@@ -43,7 +43,7 @@ services:
     depends_on:
       - app
     volumes:
-      - './team_directory:/app'
+      - '.:/app'
     command: celery beat --app=celeryapp --pidfile=
     restart: unless-stopped
 
@@ -53,5 +53,5 @@ services:
       - celerybeat
       - celery
     volumes:
-      - './team_directory:/app'
+      - '.:/app'
     command: celery flower --app=celeryapp --basic_auth=john:v4r14bl3
