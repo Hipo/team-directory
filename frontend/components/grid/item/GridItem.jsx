@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import Router from "next/router";
 
 import RightArrow from "../../../static/assets/images/right-arrow.svg";
