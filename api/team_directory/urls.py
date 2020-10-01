@@ -19,7 +19,7 @@ from django.conf.urls import url
 
 from team_directory.users.views import UsersView, UserDetailView, UserMeView, AuthenticationView, SlackInteractionsView, SlackEventsView
 from team_directory.projects.views import ProjectsView, TeamsView
-from team_directory.questions.views import QuestionsView, QuestionDetailView, AnswersView, AnswerDetailView
+from team_directory.questions.views import AnswerDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,8 +37,5 @@ urlpatterns = [
     url(r'^api/projects/$', ProjectsView.as_view()),
     url(r'^api/teams/$', TeamsView.as_view()),
     # Questions
-    url(r'^api/questions/$', QuestionsView.as_view()),
-    url(r'^api/questions/(?P<pk>[-\d]+)/$', QuestionDetailView.as_view()),
-    url(r'^api/answers/$', AnswersView.as_view()),
     url(r'^api/answers/(?P<pk>[-\d]+)/$', AnswerDetailView.as_view()),
 ]

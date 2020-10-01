@@ -1,29 +1,13 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import UpdateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import QuestionSerializer, AnswerSerializer
-from .models import Question, Answer
+from .serializers import AnswerSerializer
+from .models import Answer
 
 
-class QuestionsView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = QuestionSerializer
-    queryset = Question.objects.all()
-
-
-class QuestionDetailView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = QuestionSerializer
-    queryset = Question.objects.all()
-
-
-class AnswersView(ListCreateAPIView):
+class AnswerDetailView(UpdateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = AnswerSerializer
-    queryset = Answer.objects.all()
 
-
-class AnswerDetailView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = AnswerSerializer
-    queryset = Answer.objects.all()
+    def get_queryset(self):
+        return Answer.objects.filter(user=self.request.user)

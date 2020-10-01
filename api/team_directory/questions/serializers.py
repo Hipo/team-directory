@@ -8,13 +8,21 @@ from .models import Question, Answer
 class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = '__all__'
         model = Question
+        fields = [
+            "category",
+            "body"
+        ]
 
 
 class AnswerSerializer(serializers.ModelSerializer):
-    question = PresentablePrimaryKeyRelatedField(queryset=Question.objects.all(), presentation_serializer=QuestionSerializer)
+
+    question = QuestionSerializer(read_only=True)
 
     class Meta:
-        fields = '__all__'
         model = Answer
+        fields = [
+            "id",
+            "question",
+            "body"
+        ]

@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from slack import WebClient
 
 from team_directory.questions.models import Answer
-from .serializers import UserSerializer, UserMeSerializer
+from .serializers import UserSerializer, UserMeSerializer, UserDetailSerializer
 from .models import User, TEAM_CHOICES
 
 
@@ -37,7 +37,7 @@ class UsersView(ListAPIView):
 
 class UserDetailView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = UserSerializer
+    serializer_class = UserDetailSerializer
     queryset = User.objects.all()
 
 

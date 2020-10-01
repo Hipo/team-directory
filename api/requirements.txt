@@ -6,3 +6,4 @@ git+git://github.com/celery/celery@210ad35e8c8a0ed26abbec45126700eebec1d0ef
 tornado==5.1.1  # Fixes Celery. See https://github.com/afeinstein20/eleanor/issues/57
 slackclient
 django-extensions==2.2.1
+requests
