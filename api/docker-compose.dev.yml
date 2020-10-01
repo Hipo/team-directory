@@ -22,7 +22,7 @@ services:
     tty: true
     ports:
       # For debugging
-      - 3000:3000
+      - 4000:4000
 
   postgres:
     environment:
