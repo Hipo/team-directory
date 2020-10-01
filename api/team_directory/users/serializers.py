@@ -7,7 +7,7 @@ from team_directory.projects.models import Project
 from team_directory.projects.serializers import ProjectSerializer
 
 
-class SimpleUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
@@ -15,12 +15,13 @@ class SimpleUserSerializer(serializers.ModelSerializer):
             "id",
             "first_name",
             "last_name",
+            "team",
             "image",
             "timezone",
         ]
 
 
-class UserSerializer(SimpleUserSerializer):
+class UserMeSerializer(UserSerializer):
     projects = PresentablePrimaryKeyRelatedField(queryset=Project.objects.all(), presentation_serializer=ProjectSerializer, many=True)
 
     class Meta:

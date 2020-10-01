@@ -17,22 +17,25 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 
-from team_directory.users.views import UsersView, UserDetailView, MyUserDetailView, AuthenticationView
-from team_directory.projects.views import ProjectsView, ProjectDetailView
+from team_directory.users.views import UsersView, UserDetailView, UserMeView, AuthenticationView, SlackInteractionsView, SlackEventsView
+from team_directory.projects.views import ProjectsView, TeamsView
 from team_directory.questions.views import QuestionsView, QuestionDetailView, AnswersView, AnswerDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Slack OAuth
+
+    url(r'^api/slack/interactions/', SlackInteractionsView.as_view()),
+    url(r'^api/slack/events/', SlackEventsView.as_view()),
+
     # Users
     url(r'^api/users/authentication/', AuthenticationView.as_view()),
     # url(r'^slack/success/', AuthenticationView.as_view()),
     url(r'^api/users/$', UsersView.as_view()),
     url(r'^api/users/(?P<pk>[-\d]+)/$', UserDetailView.as_view()),
-    url(r'^api/users/me/$', MyUserDetailView.as_view()),
+    url(r'^api/users/me/$', UserMeView.as_view()),
     # Projects
     url(r'^api/projects/$', ProjectsView.as_view()),
-    url(r'^api/projects/(?P<pk>[-\d]+)/$', ProjectDetailView.as_view()),
+    url(r'^api/teams/$', TeamsView.as_view()),
     # Questions
     url(r'^api/questions/$', QuestionsView.as_view()),
     url(r'^api/questions/(?P<pk>[-\d]+)/$', QuestionDetailView.as_view()),

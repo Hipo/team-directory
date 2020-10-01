@@ -7,8 +7,9 @@ from team_directory.users.models import User
 
 @task()
 def sync_slack_users():
-    # https://api.slack.com/methods/users.list
     slack_client = WebClient(settings.SLACK_BOT_USER_ACCESS_TOKEN)
+
+    # https://api.slack.com/methods/users.list
     users = slack_client.api_call("users.list")["members"]
     for user in users:
         profile = user["profile"]

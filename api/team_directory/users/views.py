@@ -1,34 +1,52 @@
+import json
+from datetime import timedelta
+
+from django.db import transaction
+from django.utils import timezone
+
 import requests
 from django.conf import settings
 from rest_framework.authtoken.models import Token
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, GenericAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, GenericAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
+from slack import WebClient
 
-from .serializers import UserSerializer
-from .models import User
+from team_directory.questions.models import Answer
+from .serializers import UserSerializer, UserMeSerializer
+from .models import User, TEAM_CHOICES
 
 
-class UsersView(ListCreateAPIView):
+class UsersView(ListAPIView):
     permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        users = User.objects.all()
+        if self.request.GET.get("team"):
+            users = users.filter(team=self.request.GET.get("team"))
+
+        if self.request.GET.get("project"):
+            users = users.filter(project=self.request.GET.get("project"))
+
+        if self.request.GET.get("search"):
+            users = users.filter(first_name__icontains=self.request.GET.get("search"))
+
+        return users
+
+
+class UserDetailView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
 
-class UserDetailView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-
-
-class MyUserDetailView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
+class UserMeView(RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserMeSerializer
 
     def get_object(self, queryset=None):
-        obj = User.objects.get(user=self.request.user)
-        return obj
+        return self.request.user
 
 
 class AuthenticationView(GenericAPIView):
@@ -78,7 +96,106 @@ class AuthenticationView(GenericAPIView):
             user.agora_initialized = True
             user.save()
 
+        if not user.agora_welcome_message_sent:
+            slack_client = WebClient(settings.SLACK_BOT_USER_ACCESS_TOKEN)
+            message = f"""
+Welcome back, and nice to meet you {user.first_name}!
+
+Slack already told me your name, birthday, contact info (email, phone) and gave me your avatar. If you want to change any of those, you can change them in your <{settings.WEB_APP_PROFILE_URL}|Slack Profile>  and it’ll get updated automatically on Agora.
+            """
+            slack_client.chat_postMessage(channel=user.slack_user_id, text=message, as_user=True)
+            attachments = [
+                {
+                    "callback_id": "set_team",
+                    "fallback": "What team are you a part of at Hipo? This helps teammates find you more easily.",
+                    "actions": [
+                        {
+                            "type": "select",
+                            "name": "set_team",
+                            "text": "What team are you a part of at Hipo? This helps teammates find you more easily.",
+                            "options": [
+                                {
+                                    "text": c[1],
+                                    "value": c[0],
+                                }
+                                for c in TEAM_CHOICES
+                            ]
+                        }
+                    ]
+                }
+            ]
+            slack_client.chat_postMessage(channel=user.slack_user_id, attachments=attachments, as_user=True)
+            user.agora_welcome_message_sent = True
+            user.save()
+
         token, created = Token.objects.get_or_create(user=user)
         data = UserSerializer(user, context=self.get_serializer_context()).data
         data["token"] = token.key
         return Response(data)
+
+
+class SlackInteractionsView(GenericAPIView):
+
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        payload = json.loads(request.POST["payload"])
+        user = User.objects.get(slack_user_id=payload["user"]["id"])
+        had_team = user.team
+        if payload["callback_id"] == "set_team":
+            user.team = payload["actions"][0]["selected_options"][0]["value"]
+            user.save()
+
+            if not had_team:
+                text = f"""
+You’re now a proper resident of the Agora! Here’s what your <{settings.WEB_APP_PROFILE_URL}|Agora Profile> looks like.
+
+I’ll also add this link to your Slack bio, so teammates can access it more easily. You’ll also see that everyone’s Slack bio is updated with their Agora profile.
+
+From now on, every few days, I’ll be asking a quirky ice-breaker question about you. Your answers will be added to your Agora profile. The aim here is to get to know you in a way that regular social media cannot capture, and share it only with your coworkers.
+
+If you want to keep answering these questions without waiting a few days, just message me with “question” and I’ll send a new one for you. If you don’t like a question, just type “skip” and you’ll see a new one.
+            """
+                slack_client = WebClient(settings.SLACK_BOT_USER_ACCESS_TOKEN)
+                slack_client.chat_postMessage(channel=user.slack_user_id, text=text, as_user=True)
+
+        return Response()
+
+
+class SlackEventsView(GenericAPIView):
+
+    permission_classes = [AllowAny]
+
+    @transaction.atomic
+    def post(self, request, *args, **kwargs):
+        if request.data.get("challenge"):
+            # Activate events subscription.
+            return Response(request.data["challenge"])
+
+        event = request.data["event"]
+        if event["type"] == "message" and event["user"] != User.BOT_USER_SLACK_ID:
+            user = User.objects.get(slack_user_id=event["user"])
+            message = event["text"]
+            if message.lower() in ["question", "skip"]:
+                user.send_next_question()
+            elif message.lower() in ["cancel"]:
+                # Cancel active commands.
+                user.last_question_asked = None
+                user.last_question_asked_datetime = None
+                user.save()
+            else:
+                is_waiting_for_answer = user.last_question_asked_datetime and (user.last_question_asked_datetime > (timezone.now() - timedelta(minutes=5)))
+                if is_waiting_for_answer:
+                    Answer.objects.create(
+                        question=user.last_question_asked,
+                        body=message,
+                        user=user
+                    )
+                    user.last_question_asked = None
+                    user.last_question_asked_datetime = None
+                    user.save()
+                    user.send_slack_message(text=f"Good answer! I’ll save that in your <{settings.WEB_APP_PROFILE_URL}|Agora Profile>. If you want to change your answer, you can do it from there.")
+                else:
+                    user.send_slack_message(text="Available commands are: 'question' and 'skip'")
+
+        return Response()

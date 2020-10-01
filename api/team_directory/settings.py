@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -125,7 +125,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Slack
-SLACK_REDIRECT_URL = "http://127.0.0.1:3000/slack/login/"
+WEB_APP_BASE_URL = "http://127.0.0.1:3000"
+WEB_APP_PROFILE_URL = f"{WEB_APP_BASE_URL}/"
+SLACK_REDIRECT_URL = f"{WEB_APP_BASE_URL}/slack/login/"
+
+SERVER_URL = "https://07544a715fd4.ngrok.io"
 
 # Rest Framework
 
@@ -136,6 +140,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
+    'PAGE_SIZE': 100,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 }
 
 AUTH_USER_MODEL = "users.User"

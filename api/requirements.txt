@@ -1,9 +1,8 @@
 django==2.2.5
 djangorestframework==3.10.3
 flake8==3.7.8
-django-slack-oauth==1.5.0
 django-extra-fields==1.2.4
 git+git://github.com/celery/celery@210ad35e8c8a0ed26abbec45126700eebec1d0ef
 tornado==5.1.1  # Fixes Celery. See https://github.com/afeinstein20/eleanor/issues/57
-slackclient==2.2.0
+slackclient
 django-extensions==2.2.1
