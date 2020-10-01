@@ -127,7 +127,7 @@ STATIC_URL = '/static/'
 # Slack
 WEB_APP_BASE_URL = "http://127.0.0.1:3000"
 WEB_APP_PROFILE_URL = f"{WEB_APP_BASE_URL}/"
-SLACK_REDIRECT_URL = f"{WEB_APP_BASE_URL}/slack/login/"
+SLACK_REDIRECT_URL = f"{WEB_APP_BASE_URL}/slack/login"
 
 SERVER_URL = "https://07544a715fd4.ngrok.io"
 
