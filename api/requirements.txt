@@ -7,3 +7,4 @@ tornado==5.1.1  # Fixes Celery. See https://github.com/afeinstein20/eleanor/issu
 slackclient
 django-extensions==2.2.1
 requests
+django-cors-headers
