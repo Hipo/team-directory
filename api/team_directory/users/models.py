@@ -38,6 +38,9 @@ class User(AbstractUser):
     agora_initialization_message_sent = models.BooleanField(default=False)
     agora_welcome_message_sent = models.BooleanField(default=False)
 
+    birth_date = models.DateField(null=True, blank=True)
+    phone_number = models.CharField(max_length=255, blank=True)
+
     last_question_asked = models.ForeignKey("questions.Question", on_delete=models.SET_NULL, null=True, blank=True)
     last_question_asked_datetime = models.DateTimeField(blank=True, null=True)
 
@@ -86,3 +89,14 @@ Click the button below, and I’ll see you when you’re done.
             self.send_slack_message(text=question.body)
         else:
             self.send_slack_message(text="Congrats! You have answered all the questions.")
+
+    def clear_last_asked_question(self):
+        self.last_question_asked = None
+        self.last_question_asked_datetime = None
+        self.save()
+
+
+class OneLiner(models.Model):
+
+    body = models.CharField(max_length=255)
+    user = models.ForeignKey("users.User", related_name="one_liners", on_delete=models.CASCADE)

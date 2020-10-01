@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User
 
 
-class UserAdmin(BaseUserAdmin):
+class UserAdmin(admin.ModelAdmin):
 
     ordering = ['id']
     list_display = ['id', 'email', 'first_name', 'last_name', 'is_staff']
