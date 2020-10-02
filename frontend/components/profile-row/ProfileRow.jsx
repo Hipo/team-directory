@@ -4,13 +4,13 @@ import "./_profile-row.scss";
 
 function ProfileRow({user}) {
   function handleProfileRowClick() {
-    Router.push(`/profile/[user]`, `/profile/${user.userName}`)
+    Router.push(`/profile/me`)
   }
 
   return (
     <div className={"profile-row"} onClick={handleProfileRowClick}>
-      <h1 className={"profile-row-user-name"}>{user.fullName}</h1>
-      <div className={"profile-row-avatar"} style={{backgroundImage:`url(${user.avatar})`}}/>
+      <h1 className={"profile-row-user-name"}>{user.first_name} {user.last_name}</h1>
+      <div className={"profile-row-avatar"} style={{backgroundImage:`url(${user.image})`}}/>
     </div>
   )
 }

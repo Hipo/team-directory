@@ -7,27 +7,29 @@ import "./_grid-item.scss";
 
 function GridItem({item}) {
   const {
-    avatar,
-    fullName,
+    id,
+    image,
+    first_name,
+    last_name,
     team,
-    currentProjects,
-    oneLiners,
-    userName
+    projects,
+    one_liners
   } = item;
 
   function handleGridItemClick() {
-    Router.push(`/profile/[user]`, `/profile/${userName}`)
+    Router.push(`/profile/[user]`, `/profile/${id}`)
   }
+
 
   return (
     <div className={"grid-item"}
          onClick={handleGridItemClick}
          style={{
-           backgroundImage: `url(${avatar})`
+           backgroundImage: `url(${image})`
          }}>
 
       <div className={"grid-item-name"}>
-        {fullName}
+        {first_name} {last_name}
       </div>
 
       <div className={"grid-item-detail-container"}>
@@ -36,17 +38,17 @@ function GridItem({item}) {
         </p>
 
         <p className={"grid-item-detail-current-projects"}>
-          {currentProjects.join(", ")}
+          {projects.map((project) => (<span key={project.id}>{project.name}</span>))}
         </p>
 
         <ul className={"grid-item-detail-one-liner-list"}>
-          {oneLiners.slice(0, 3).map(oneLiner => (
+          {one_liners.slice(0, 3).map(oneLiner => (
             <li className={"grid-item-detail-one-liner-list-item"}
-                key={oneLiner}>
+                key={oneLiner && oneLiner.id}>
               <span className={"grid-item-detail-one-liner-list-item-bullet"}/>
 
               <p className={"grid-item-detail-one-liner-list-item-text"}>
-                {oneLiner}
+                {!!oneLiner && oneLiner.body}
               </p>
             </li>
           ))}

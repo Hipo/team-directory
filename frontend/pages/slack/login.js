@@ -1,10 +1,11 @@
 import Spinner from "../../static/assets/spinner.svg";
 
+import { useEffect } from "react";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
+import {setCookie} from "nookies";
 
 import "./_login.scss";
-import { useEffect } from "react";
 import { authenticate } from "../../api/api";
 
 function SlackLogin() {
@@ -12,11 +13,14 @@ function SlackLogin() {
 
   useEffect(() => {
     if (code) {
-      authenticate(code);
-    }
+      authenticate(code).then(response => {
+        setCookie({}, "token", response.data.token, {
+          path: '/',
+        });
 
-    // if the request fails redirect to home page
-    // Router.push(`/`)
+        Router.push(`/`)
+      });
+    }
   }, [code])
 
   return (
@@ -29,7 +33,7 @@ function SlackLogin() {
 
       <div className="page-body">
         <img src={Spinner}/>
-        <h1>{"Loading..."}</h1>
+        <h1>{"Redirecting you back to the application. This may take a few moments..."}</h1>
       </div>
     </div>
   )

@@ -6,10 +6,18 @@ import groupBy from "lodash/groupBy";
 import Layout from "../../components/layout/Layout";
 import Grid from "../../components/grid/Grid";
 import CrossIcon from "../../static/assets/images/cross.svg";
+import { getMyProfile, getUser, getUsers } from "../../api/api";
+import withUser from "../../api/withUser";
 
 import "./_user.scss";
 
-function User({user, users, iceBreakerQuestions, projectList, teamList}) {
+function User({user, users = [], projectList = [], teamList = []}) {
+  const iceBreakerQuestions = user.answers.map(answer => ({
+    id: answer.id, 
+    title: answer.question.body, 
+    category: answer.question.category, 
+    answer: answer.body
+  }))
   const groupedQuestions = groupBy(iceBreakerQuestions, "category");
   const [activeQuestionCategory, setActiveQuestionCategory] = useState(Object.keys(groupedQuestions)[0]);
 
@@ -40,18 +48,18 @@ function User({user, users, iceBreakerQuestions, projectList, teamList}) {
         <div className={"user-profile-avatar-and-meta"}>
           <div className={"user-profile-avatar"}
                style={{
-                 backgroundImage: `url(${user.avatar})`
+                 backgroundImage: `url(${user.image})`
                }}/>
 
           <div className={"user-profile-meta"}>
-            {user.fullName.split(" ").map((item, index) => (
-              <h1 key={index}
-                  className={"user-profile-full-name"}>
-                {item}
-              </h1>
-            ))}
+            <h1 className={"user-profile-full-name"}>
+              {user.first_name}
+            </h1>
+            <h1 className={"user-profile-full-name"}>
+              {user.last_name}
+            </h1>
             <h2 className={"user-profile-team"}>{user.team}</h2>
-            <h2 className={"user-profile-birth-date"}>{user.birthDate}</h2>
+            <h2 className={"user-profile-birth-date"}>{user.birth_date}</h2>
           </div>
         </div>
 
@@ -62,8 +70,8 @@ function User({user, users, iceBreakerQuestions, projectList, teamList}) {
             </div>
             <div className={"user-profile-detailed-info-row-content"}>
               <ul>
-                {user.oneLiners.map((item, index) => (
-                  <li key={`one-liner-${index}`}>{item}</li>
+                {user.one_liners.map((item, index) => (
+                  <li key={`one-liner-${index}`}>{!!item && item.body}</li>
                 ))}
               </ul>
             </div>
@@ -74,7 +82,7 @@ function User({user, users, iceBreakerQuestions, projectList, teamList}) {
               {"WORKS ON"}
             </div>
             <div className={"user-profile-detailed-info-row-content"}>
-              {user.currentProjects.join(", ")}
+              {user.projects.map((project) => (<span key={project.id}>{project.name}</span>))}
             </div>
           </div>
 
@@ -83,35 +91,37 @@ function User({user, users, iceBreakerQuestions, projectList, teamList}) {
               {"WORKED ON"}
             </div>
             <div className={"user-profile-detailed-info-row-content"}>
-              {user.pastProjects.join(", ")}
+            {user.projects.map((project) => (<span key={project.id}>{project.name}</span>))}
             </div>
           </div>
         </div>
 
-        <div className={"user-profile-questions-wrapper"}>
-          <ul className={"user-profile-questions-categories"}>
-            {Object.keys(groupedQuestions).map((key, index) => (
-              <li className={key === activeQuestionCategory ? "active" : ""}
-                  key={`category-item-${index}`}
-                  onClick={handleQuestionCategoryClick(key)}>{key}</li>
-            ))}
-          </ul>
+        {Boolean(Object.keys(groupedQuestions).length) && (
+          <div className={"user-profile-questions-wrapper"}>
+            <ul className={"user-profile-questions-categories"}>
+              {Object.keys(groupedQuestions).map((key, index) => (
+                <li className={key === activeQuestionCategory ? "active" : ""}
+                    key={`category-item-${index}`}
+                    onClick={handleQuestionCategoryClick(key)}>{key}</li>
+              ))}
+            </ul>
 
 
-          <div className={"user-profile-questions-answers"}>
-            {groupedQuestions[activeQuestionCategory].map((item, index) => (
-              <div key={`category-item-${index}`}
-                   className={"user-profile-questions-answer-item"}>
-                <div className={"user-profile-questions-answer-item-title"}>
-                  {item.title}
+            <div className={"user-profile-questions-answers"}>
+              {groupedQuestions[activeQuestionCategory].map((item, index) => (
+                <div key={`category-item-${index}`}
+                    className={"user-profile-questions-answer-item"}>
+                  <div className={"user-profile-questions-answer-item-title"}>
+                    {item.title}
+                  </div>
+                  <div className={"user-profile-questions-answer-item-content"}>
+                    {item.answer}
+                  </div>
                 </div>
-                <div className={"user-profile-questions-answer-item-content"}>
-                  {item.answer}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </Layout>
   )
@@ -124,10 +134,23 @@ User.propTypes = {
   teamList: PropTypes.array
 };
 
-User.getInitialProps = function ({query}) {
+User.getInitialProps = async function ({query}) {
+  let user;
+
+  if (query.user === "me") {
+    const {data} = await getMyProfile();
+    user = data;
+  } else {
+    const {data} = await getUser(query.user);
+    user = data;
+  }
+
+  const {data: users} = await getUsers();
+
   return {
-   
+    user,
+    users: users.results
   }
 };
 
-export default User;
+export default withUser(User);
