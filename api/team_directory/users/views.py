@@ -63,7 +63,7 @@ class AuthenticationView(GenericAPIView):
             'redirect_uri': settings.SLACK_REDIRECT_URL,
         }
         response_data = requests.get("https://slack.com/api/oauth.v2.access", params=params).json()
-
+        print(response_data)
         assert response_data["app_id"] == "ANVQNHT4N"
 
         access_token = response_data["authed_user"]["access_token"]
@@ -102,7 +102,7 @@ class AuthenticationView(GenericAPIView):
             message = f"""
 Welcome back, and nice to meet you {user.first_name}!
 
-Slack already told me your name, contact info and gave me your avatar. If you want to change any of those, you can change them in your <{settings.WEB_APP_PROFILE_URL}|Slack Profile>  and it’ll get updated automatically on Agora.
+Slack already told me your name and gave me your avatar. If you want to change any of those, you can change them in your <{settings.WEB_APP_PROFILE_URL}|Slack Profile>  and it’ll get updated automatically on Agora.
             """
             slack_client.chat_postMessage(channel=user.slack_user_id, text=message, as_user=True)
             attachments = [
@@ -125,7 +125,7 @@ Slack already told me your name, contact info and gave me your avatar. If you wa
                     ]
                 }
             ]
-            slack_client.chat_postMessage(channel=user.slack_user_id, attachments=attachments, as_user=True)
+            slack_client.chat_postMessage(channel=user.slack_user_id, text="What team are you a part of at Hipo? This helps teammates find you more easily.", attachments=attachments, as_user=True)
             user.agora_welcome_message_sent = True
             user.save()
 
