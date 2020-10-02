@@ -4,7 +4,7 @@ const withImages = require('next-images');
 module.exports = withImages(
   withSass({
     publicRuntimeConfig: {
-      API_HOST: "https://api.test.com" // This should be came from a constant
+      API_HOST: "http://localhost/api" // This should be came from a constant
     }
   })
 );
