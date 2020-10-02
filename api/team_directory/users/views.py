@@ -153,9 +153,20 @@ You’re now a proper resident of the Agora! Here’s what your <{settings.WEB_A
 
 I’ll also add this link to your Slack bio, so teammates can access it more easily. You’ll also see that everyone’s Slack bio is updated with their Agora profile.
 
+First of all, please visit your <{settings.WEB_APP_PROFILE_URL}|Agora Profile> and add your birthday, phone number etc, so that teammates can find you (and celebrate your birthday!)
+
 From now on, every few days, I’ll be asking a quirky ice-breaker question about you. Your answers will be added to your Agora profile. The aim here is to get to know you in a way that regular social media cannot capture, and share it only with your coworkers.
 
-If you want to keep answering these questions without waiting a few days, just message me with “question” and I’ll send a new one for you. If you don’t like a question, just type “skip” and you’ll see a new one.
+If you want to keep answering these questions without waiting a few days, just message me with *question* and I’ll send a new one for you. If you don’t like a question, just type *skip* and you’ll see a new one.
+
+From your <{settings.WEB_APP_PROFILE_URL}|Agora Profile> you can also add your past and current projects you’re working on at Hipo. This allows you to find help on your project by contacting a teammate who has worked on that project before. Alternatively, on Slack, simply write *add project* to add a project you’re working on. You can also write *remove project* to remove a current active project.
+
+Your Agora Profile also has a space for some one-liners about you. One-liners are little tidbits about you that appear in your Agora profile. Think of it as a way of expressing little things that make you, well... you =)
+
+To add a one-liner, simply write *add oneliner <a sentence about you>*. So a sample would be:
+*add oneliner I own 15 cats*
+
+To get this message again and learn your Slack commands, simply write *help*
             """
                 slack_client = WebClient(settings.SLACK_BOT_USER_ACCESS_TOKEN)
                 slack_client.chat_postMessage(channel=user.slack_user_id, text=text, as_user=True)
