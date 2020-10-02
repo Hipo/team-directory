@@ -38,7 +38,7 @@ function GridItem({item}) {
         </p>
 
         <p className={"grid-item-detail-current-projects"}>
-          {projects.map((project) => (<span key={project.id}>{project.name}</span>))}
+          {projects.map((project) => (<span key={project.id} className={"grid-item-detail-current-projects-item"}>{project.name}</span>))}
         </p>
 
         <ul className={"grid-item-detail-one-liner-list"}>

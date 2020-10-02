@@ -70,6 +70,14 @@
       font-size: 20px;
     }
 
+    .grid-item-detail-current-projects-item {
+      display: inline-block;
+
+      &:not(:last-of-type) {
+        margin-right: 8px
+      }
+    }
+
     .grid-item-detail-one-liner-list {
       display: block;
 

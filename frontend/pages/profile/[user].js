@@ -82,7 +82,7 @@ function User({user, users = [], projectList = [], teamList = []}) {
               {"WORKS ON"}
             </div>
             <div className={"user-profile-detailed-info-row-content"}>
-              {user.projects.map((project) => (<span key={project.id}>{project.name}</span>))}
+              {user.projects.map((project) => (<span key={project.id} className={"user-profile-detailed-info-row-content"}>{project.name}</span>))}
             </div>
           </div>
 

@@ -123,6 +123,14 @@
     font-size: 18px;
   }
 
+  .user-profile-detailed-info-row-content {
+    display: inline-block;
+
+    &:not(:last-of-type) {
+      margin-right: 8px;
+    }
+  }
+
   .user-profile-questions-categories {
     display: flex;
 
