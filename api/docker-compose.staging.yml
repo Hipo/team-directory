@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: .
+    image: team_directory_api
+    command: python manage.py runserver 0:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=team_directory.settings
+    volumes:
+      - '.:/app'
+    ports:
+      - 8000:8000
