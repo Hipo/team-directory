@@ -11,7 +11,13 @@ import withUser from "../../api/withUser";
 
 import "./_user.scss";
 
-function User({user, users = [], iceBreakerQuestions = [], projectList = [], teamList = []}) {
+function User({user, users = [], projectList = [], teamList = []}) {
+  const iceBreakerQuestions = user.answers.map(answer => ({
+    id: answer.id, 
+    title: answer.question.body, 
+    category: answer.question.category, 
+    answer: answer.body
+  }))
   const groupedQuestions = groupBy(iceBreakerQuestions, "category");
   const [activeQuestionCategory, setActiveQuestionCategory] = useState(Object.keys(groupedQuestions)[0]);
 
@@ -22,7 +28,6 @@ function User({user, users = [], iceBreakerQuestions = [], projectList = [], tea
   function handleBackdropClick() {
     Router.push("/");
   }
-
 
   return (
     <Layout user={user}

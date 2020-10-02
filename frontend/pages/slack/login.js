@@ -33,7 +33,7 @@ function SlackLogin() {
 
       <div className="page-body">
         <img src={Spinner}/>
-        <h1>{"Loading..."}</h1>
+        <h1>{"Redirecting you back to the application. This may take a few moments..."}</h1>
       </div>
     </div>
   )
