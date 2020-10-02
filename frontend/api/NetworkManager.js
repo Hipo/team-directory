@@ -1,10 +1,7 @@
-import getConfig from 'next/config';
 import axios from "axios";
 
-const {publicRuntimeConfig = {}} = getConfig() || {};
-
 const NetworkManager = axios.create({
-  baseURL: publicRuntimeConfig.API_HOST,
+  baseURL: "https://07544a715fd4.ngrok.io/api",
 });
 
 NetworkManager.defaults.headers.post['Content-Type'] = 'application/json';
