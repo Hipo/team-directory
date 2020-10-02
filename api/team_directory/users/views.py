@@ -63,8 +63,7 @@ class AuthenticationView(GenericAPIView):
             'redirect_uri': settings.SLACK_REDIRECT_URL,
         }
         response_data = requests.get("https://slack.com/api/oauth.v2.access", params=params).json()
-        print(response_data)
-        import ipdb; ipdb.set_trace()
+
         assert response_data["app_id"] == "ANVQNHT4N"
 
         access_token = response_data["authed_user"]["access_token"]
