@@ -4,7 +4,7 @@ const withImages = require('next-images');
 module.exports = withImages(
   withSass({
     publicRuntimeConfig: {
-      API_HOST: "http://localhost/api" // This should be came from a constant
+      API_HOST: "https://07544a715fd4.ngrok.io/api"
     }
   })
 );

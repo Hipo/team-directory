@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import Header from "../header/Header";
 import Sidebar from "../sidebar/Sidebar";
+import withUser from "../../api/withUser";
 
 import "./_layout.scss";
 
@@ -30,7 +31,7 @@ function Layout(props) {
       ) : (
         <div className={"auth-section"}>
           <h3 className={"auth-section-title"}>{"Team Directory"}</h3>
-          <a href="https://slack.com/oauth/authorize?scope=identity.basic&client_id=2183021064.777838605158">
+          <a href="https://slack.com/oauth/v2/authorize?client_id=2183021064.777838605158&user_scope=users:read,users:read.email,team:read&redirect_uri=http://e0f7706b8268.ngrok.io/slack/login">
             <img src="https://api.slack.com/img/sign_in_with_slack.png" />
           </a>
         </div>
@@ -47,4 +48,4 @@ Layout.propTypes = {
   teamList: PropTypes.array
 };
 
-export default Layout;
+export default withUser(Layout);
