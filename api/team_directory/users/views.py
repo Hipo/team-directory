@@ -30,6 +30,10 @@ Your Agora Profile also has a space for some one-liners about you. One-liners ar
 To add a one-liner, simply write *add oneliner <a sentence about you>*. So a sample would be:
 *add oneliner I own 15 cats*
 
+To remove a one-liner, simply write *remove oneliner* and you’ll get a list of your oneliners to remove
+
+You can write *cancel* at any time
+
 To get this message again and learn your Slack commands, simply write *help*
 """
 
