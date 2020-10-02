@@ -7,15 +7,31 @@ from django.utils import timezone
 import requests
 from django.conf import settings
 from rest_framework.authtoken.models import Token
-from rest_framework.generics import RetrieveUpdateAPIView, GenericAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, GenericAPIView, RetrieveAPIView, ListAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from slack import WebClient
 
 from team_directory.projects.models import Project
 from team_directory.questions.models import Answer
-from .serializers import UserSerializer, UserMeSerializer, UserDetailSerializer
+from .serializers import UserSerializer, UserMeSerializer, UserDetailSerializer, OneLinerSerializer
 from .models import User, TEAM_CHOICES, OneLiner
+
+
+AGORA_HELP_TEXT = f"""
+From now on, every few days, I’ll be asking a quirky ice-breaker question about you. Your answers will be added to your Agora profile. The aim here is to get to know you in a way that regular social media cannot capture, and share it only with your coworkers.
+
+If you want to keep answering these questions without waiting a few days, just message me with *question* and I’ll send a new one for you. If you don’t like a question, just type *skip* and you’ll see a new one.
+
+From your <{settings.WEB_APP_PROFILE_URL}|Agora Profile> you can also add your past and current projects you’re working on at Hipo. This allows you to find help on your project by contacting a teammate who has worked on that project before. Alternatively, on Slack, simply write *add project* to add a project you’re working on. You can also write *remove project* to remove a current active project.
+
+Your Agora Profile also has a space for some one-liners about you. One-liners are little tidbits about you that appear in your Agora profile. Think of it as a way of expressing little things that make you, well... you =)
+
+To add a one-liner, simply write *add oneliner <a sentence about you>*. So a sample would be:
+*add oneliner I own 15 cats*
+
+To get this message again and learn your Slack commands, simply write *help*
+"""
 
 
 class UsersView(ListAPIView):
@@ -48,6 +64,14 @@ class UserMeView(RetrieveUpdateAPIView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class OneLinerDetailView(UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = OneLinerSerializer
+
+    def get_queryset(self):
+        return OneLiner.objects.filter(user=self.request.user)
 
 
 class AuthenticationView(GenericAPIView):
@@ -98,13 +122,13 @@ class AuthenticationView(GenericAPIView):
             user.save()
 
         if not user.agora_welcome_message_sent:
-            slack_client = WebClient(settings.SLACK_BOT_USER_ACCESS_TOKEN)
             message = f"""
 Welcome back, and nice to meet you {user.first_name}!
 
 Slack already told me your name and gave me your avatar. If you want to change any of those, you can change them in your <{settings.WEB_APP_PROFILE_URL}|Slack Profile>  and it’ll get updated automatically on Agora.
+
+What team are you a part of at Hipo? This helps teammates find you more easily.
             """
-            slack_client.chat_postMessage(channel=user.slack_user_id, text=message, as_user=True)
             attachments = [
                 {
                     "callback_id": "set_team",
@@ -125,7 +149,7 @@ Slack already told me your name and gave me your avatar. If you want to change a
                     ]
                 }
             ]
-            slack_client.chat_postMessage(channel=user.slack_user_id, text="What team are you a part of at Hipo? This helps teammates find you more easily.", attachments=attachments, as_user=True)
+            user.send_slack_message(text=message, attachments=attachments)
             user.agora_welcome_message_sent = True
             user.save()
 
@@ -155,18 +179,7 @@ I’ll also add this link to your Slack bio, so teammates can access it more eas
 
 First of all, please visit your <{settings.WEB_APP_PROFILE_URL}|Agora Profile> and add your birthday, phone number etc, so that teammates can find you (and celebrate your birthday!)
 
-From now on, every few days, I’ll be asking a quirky ice-breaker question about you. Your answers will be added to your Agora profile. The aim here is to get to know you in a way that regular social media cannot capture, and share it only with your coworkers.
-
-If you want to keep answering these questions without waiting a few days, just message me with *question* and I’ll send a new one for you. If you don’t like a question, just type *skip* and you’ll see a new one.
-
-From your <{settings.WEB_APP_PROFILE_URL}|Agora Profile> you can also add your past and current projects you’re working on at Hipo. This allows you to find help on your project by contacting a teammate who has worked on that project before. Alternatively, on Slack, simply write *add project* to add a project you’re working on. You can also write *remove project* to remove a current active project.
-
-Your Agora Profile also has a space for some one-liners about you. One-liners are little tidbits about you that appear in your Agora profile. Think of it as a way of expressing little things that make you, well... you =)
-
-To add a one-liner, simply write *add oneliner <a sentence about you>*. So a sample would be:
-*add oneliner I own 15 cats*
-
-To get this message again and learn your Slack commands, simply write *help*
+{AGORA_HELP_TEXT}
             """
                 slack_client = WebClient(settings.SLACK_BOT_USER_ACCESS_TOKEN)
                 slack_client.chat_postMessage(channel=user.slack_user_id, text=text, as_user=True)
@@ -206,7 +219,7 @@ class SlackEventsView(GenericAPIView):
             return Response(request.data["challenge"])
 
         event = request.data["event"]
-        if event["type"] == "message" and event["user"] != User.BOT_USER_SLACK_ID:
+        if event["type"] == "message" and event.get("user") and event["user"] != User.BOT_USER_SLACK_ID:
             user = User.objects.get(slack_user_id=event["user"])
             message = event["text"]
             command = message.replace(" ", "").lower()
@@ -215,6 +228,8 @@ class SlackEventsView(GenericAPIView):
             elif command in ["cancel"]:
                 # Cancel active commands.
                 user.clear_last_asked_question()
+            elif command in ["help"]:
+                user.send_slack_message(text=AGORA_HELP_TEXT)
             elif command in ["selam", "hi"]:
                 # Cancel active commands.
                 user.clear_last_asked_question()
@@ -294,11 +309,11 @@ class SlackEventsView(GenericAPIView):
                         }
                     ]
                     user.send_slack_message(attachments=attachments)
-            elif message.startswith("addoneliner"):
+            elif message.startswith("add oneliner") or message.startswith("Add oneliner"):
                 user.clear_last_asked_question()
-                one_liner = message.replace("addoneliner", "").strip()
+                one_liner = message.replace("add oneliner", "").replace("Add oneliner", "").strip()
                 if not one_liner:
-                    user.send_slack_message(text="Please provide one-liner. Sample command: addoneliner Lives in istanbul")
+                    user.send_slack_message(text="Please provide one-liner. Sample command: add oneliner Lives in istanbul")
                 else:
                     OneLiner.objects.create(user=user, body=one_liner)
                     user.send_slack_message(text=f"One-liner `{one_liner}` is added.")
@@ -316,9 +331,7 @@ class SlackEventsView(GenericAPIView):
                     user.send_slack_message(text=f"Good answer! I’ll save that in your <{settings.WEB_APP_PROFILE_URL}|Agora Profile>. If you want to change your answer, you can do it from there.")
                 else:
                     user.clear_last_asked_question()
-                    user.send_slack_message(text=self.get_help_text())
+                    message = "Hmm, I’m not sure what to do with that command. If you’re stuck, you can type *help* and I’ll give you a list of commands I can actually understand =)"
+                    user.send_slack_message(text=message)
 
         return Response()
-
-    def get_help_text(self):
-        return "Available commands are: `addproject`, `removeproject`, `addoneliner`, `removeoneliner`, `cancel`, 'question' and 'skip'"

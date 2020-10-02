@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 
-from team_directory.users.views import UsersView, UserDetailView, UserMeView, AuthenticationView, SlackInteractionsView, SlackEventsView
+from team_directory.users.views import UsersView, UserDetailView, UserMeView, AuthenticationView, SlackInteractionsView, SlackEventsView, OneLinerDetailView
 from team_directory.projects.views import ProjectsView, TeamsView
 from team_directory.questions.views import AnswerDetailView
 
@@ -29,6 +29,7 @@ urlpatterns = [
 
     # Users
     url(r'^api/users/authentication/', AuthenticationView.as_view()),
+    url(r'^api/one-liners/(?P<pk>[-\d]+)/', OneLinerDetailView.as_view()),
     # url(r'^slack/success/', AuthenticationView.as_view()),
     url(r'^api/users/$', UsersView.as_view()),
     url(r'^api/users/(?P<pk>[-\d]+)/$', UserDetailView.as_view()),

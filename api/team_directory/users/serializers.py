@@ -8,7 +8,7 @@ from team_directory.projects.models import Project
 from team_directory.projects.serializers import ProjectSerializer
 
 
-class OneLinerSerializer(serializers.Serializer):
+class OneLinerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OneLiner
@@ -62,6 +62,8 @@ class UserDetailSerializer(UserSerializer):
 
 class UserMeSerializer(UserSerializer):
 
+    answers = AnswerSerializer(many=True)
+    one_liners = OneLinerSerializer(many=True)
     projects = PresentablePrimaryKeyRelatedField(queryset=Project.objects.all(), presentation_serializer=ProjectSerializer, many=True)
 
     class Meta:
@@ -73,6 +75,8 @@ class UserMeSerializer(UserSerializer):
             "image",
             "timezone",
             "projects",
+            "answers",
+            "one_liners",
             "birth_date",
             "phone_number",
         ]

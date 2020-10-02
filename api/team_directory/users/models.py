@@ -1,3 +1,5 @@
+import random
+
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -86,7 +88,23 @@ Click the button below, and I’ll see you when you’re done.
             self.last_question_asked = question
             self.last_question_asked_datetime = timezone.now()
             self.save()
-            self.send_slack_message(text=question.body)
+
+            header = random.choice([
+                "Ready for another question? Here goes:",
+                "Time for an ice-breaker:",
+                "Time to pad your Agora Profile with weird facts about you:",
+                "Here’s a question you (probably) will not hear every day:",
+                "Do you sometimes ask yourself:",
+                "I got a question:",
+                "Let’s break some more ice:",
+            ])
+            text = f"""
+{header}
+
+{question.body}
+            """
+
+            self.send_slack_message(text=text)
         else:
             self.send_slack_message(text="Congrats! You have answered all the questions.")
 
