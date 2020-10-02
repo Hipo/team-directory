@@ -31,7 +31,7 @@ function Layout(props) {
       ) : (
         <div className={"auth-section"}>
           <h3 className={"auth-section-title"}>{"Team Directory"}</h3>
-          <a href="https://slack.com/oauth/v2/authorize?client_id=2183021064.777838605158&user_scope=users:read,users:read.email,team:read&redirect_uri=https://e56c76b0fac2.ngrok.io/slack/login">
+          <a href="https://slack.com/oauth/v2/authorize?client_id=2183021064.777838605158&user_scope=users:read,users:read.email,team:read&redirect_uri=https://hipo-team-directory.vercel.app/slack/login">
             <img src="https://api.slack.com/img/sign_in_with_slack.png" />
           </a>
         </div>
